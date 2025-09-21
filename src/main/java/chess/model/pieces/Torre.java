@@ -1,4 +1,4 @@
-package br.com.model.pecas;
+package chess.model.pieces;
 
 public class Torre extends Peca {
     public Torre(String cor, int valor) {

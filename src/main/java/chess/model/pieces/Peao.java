@@ -1,4 +1,4 @@
-package br.com.model.pecas;
+package chess.model.pieces;
 
 public class Peao extends Peca {
     public Peao(String cor, int valor) {

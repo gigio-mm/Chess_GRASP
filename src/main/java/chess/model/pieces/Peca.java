@@ -1,4 +1,4 @@
-package br.com.model.pecas;
+package chess.model.pieces;
 
 public abstract class Peca {
     private String cor;
