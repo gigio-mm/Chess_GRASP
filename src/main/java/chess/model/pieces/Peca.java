@@ -1,42 +1,41 @@
 package chess.model.pieces;
 
-public abstract class Peca {
-    private String cor;
-    private int valor;
-    private boolean jaMoveu;
+import chess.model.enums.Cor;
+import chess.model.Posicao;
+import chess.model.Tabuleiro;
 
-    public Peca(String cor, int valor) {
+import java.util.List;
+
+public abstract class Peca {
+
+    protected final Cor cor;
+    protected final int valor;
+    protected boolean jaMoveu;
+
+
+    public Peca(Cor cor, int valor) {
         this.cor = cor;
         this.valor = valor;
         this.jaMoveu = false;
     }
 
-    public static void notificarQueJaMoveu() {
-
-    }
-
-
-    public String getCor() {
+    public Cor getCor() {
         return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
-    public boolean isJaMoveu() {
-        return jaMoveu;
-    }
-
-    public void setJaMoveu(boolean jaMoveu) {
-        this.jaMoveu = jaMoveu;
     }
 
     public int getValor() {
         return valor;
     }
 
-    public void setValor(int valor) {
-        this.valor = valor;
+    public boolean isJaMoveu() {
+        return jaMoveu;
     }
+
+    public void notificarQueJaMoveu() {
+        this.jaMoveu = true;
+    }
+
+
+    public abstract List<Posicao> getMovimentosPossiveis(Posicao posicaoAtual, Tabuleiro tabuleiro);
+
 }
