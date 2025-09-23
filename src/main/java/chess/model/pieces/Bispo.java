@@ -3,16 +3,34 @@ package chess.model.pieces;
 import chess.model.enums.Cor;
 import chess.model.Posicao;
 import chess.model.Tabuleiro;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Bispo extends Peca {
     public Bispo(Cor cor) {
-        super(cor, 3); // Valor do Bispo é 3
+        super(cor, 3);
     }
 
     @Override
     public List<Posicao> getMovimentosPossiveis(Posicao posicaoAtual, Tabuleiro tabuleiro) {
-        return List.of();
+        List<Posicao> movimentos = new ArrayList<>();
+        int[][] direcoes = {{-1, -1}, {-1, 1}, {1, -1}, {1, 1}}; // Diagonais
+
+        for (int[] d : direcoes) {
+            Posicao proxima = new Posicao(posicaoAtual.getLinha() + d[0], posicaoAtual.getColuna() + d[1]);
+            while (tabuleiro.isPosicaoValida(proxima)) {
+                if (tabuleiro.temPeca(proxima)) {
+                    if (tabuleiro.temPecaInimiga(proxima, this.getCor())) {
+                        movimentos.add(proxima);
+                    }
+                    break;
+                }
+                movimentos.add(proxima);
+                proxima = new Posicao(proxima.getLinha() + d[0], proxima.getColuna() + d[1]);
+            }
+        }
+        return movimentos;
     }
 
     @Override

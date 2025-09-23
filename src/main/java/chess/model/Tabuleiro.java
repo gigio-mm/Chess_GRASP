@@ -69,7 +69,7 @@ public class Tabuleiro {
 
     // --- MÉTODOS AUXILIARES ---
 
-    private boolean isPosicaoValida(Posicao pos) {
+    public boolean isPosicaoValida(Posicao pos) {
         int linha = pos.getLinha();
         int coluna = pos.getColuna();
         return linha >= 0 && linha < 8 && coluna >= 0 && coluna < 8;
@@ -99,6 +99,22 @@ public class Tabuleiro {
             }
         }
         return null;
+    }
+
+    public boolean temPeca(Posicao pos) {
+        return getPeca(pos) != null;
+    }
+
+    public boolean temPecaInimiga(Posicao pos, Cor corDoAtacante) {
+        Peca peca = getPeca(pos);
+        // Retorna true se existe uma peça na posição E a cor dela é diferente da do atacante
+        return peca != null && peca.getCor() != corDoAtacante;
+    }
+
+    public boolean temPecaDaMesmaCor(Posicao pos, Cor cor) {
+        Peca peca = getPeca(pos);
+        // Retorna true se existe uma peça na posição E a cor dela é a mesma
+        return peca != null && peca.getCor() == cor;
     }
 
     @Override
