@@ -15,4 +15,9 @@ public class Torre extends Peca {
         // Lógica do movimento virá aqui
         return List.of();
     }
+
+    @Override
+    public String getRepresentacao() {
+        return getCor() == Cor.BRANCO ? "T" : "t";
+    }
 }

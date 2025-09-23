@@ -15,4 +15,9 @@ public class Rei extends Peca {
         // Lógica do movimento virá aqui
         return List.of();
     }
+
+    @Override
+    public String getRepresentacao() {
+        return getCor() == Cor.BRANCO ? "K" : "k";
+    }
 }

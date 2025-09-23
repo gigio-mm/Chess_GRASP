@@ -100,4 +100,25 @@ public class Tabuleiro {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n  a b c d e f g h\n");
+        sb.append(" -----------------\n");
+        for (int i = 0; i < 8; i++) {
+            sb.append(8 - i).append("|");
+            for (int j = 0; j < 8; j++) {
+                Peca peca = getPeca(new Posicao(i, j));
+                if (peca == null) {
+                    sb.append(" -");
+                } else {
+                    sb.append(" ").append(peca.getRepresentacao());
+                }
+            }
+            sb.append(" |\n");
+        }
+        sb.append(" -----------------\n");
+        return sb.toString();
+    }
 }
