@@ -2,10 +2,12 @@ package chess.model;
 
 import chess.model.enums.Cor;
 import chess.model.pieces.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tabuleiro {
 
-    private Peca[][] pecas;
+    private final Peca[][] pecas;
 
     public Tabuleiro() {
         this.pecas = new Peca[8][8];
@@ -13,46 +15,89 @@ public class Tabuleiro {
     }
 
     public Peca getPeca(Posicao pos) {
+        if (!isPosicaoValida(pos)) {
+            return null;
+        }
         return pecas[pos.getLinha()][pos.getColuna()];
     }
 
     public void colocarPeca(Peca peca, Posicao pos) {
+        if (!isPosicaoValida(pos)) {
+            return;
+        }
         pecas[pos.getLinha()][pos.getColuna()] = peca;
     }
 
     public Peca removerPeca(Posicao pos) {
-        Peca removida = pecas[pos.getLinha()][pos.getColuna()];
-        pecas[pos.getLinha()][pos.getColuna()] = null;
+        if (!isPosicaoValida(pos)) {
+            return null;
+        }
+        Peca removida = getPeca(pos);
+        if (removida != null) {
+            pecas[pos.getLinha()][pos.getColuna()] = null;
+        }
         return removida;
     }
 
     private void iniciarPecasPadrao() {
-        pecas[0][0] = new Torre(Cor.BRANCO);
-        pecas[0][1] = new Cavalo(Cor.BRANCO);
-        pecas[0][2] = new Bispo(Cor.BRANCO);
-        pecas[0][3] = new Rainha(Cor.BRANCO);
-        pecas[0][4] = new Rei(Cor.BRANCO);
-        pecas[0][5] = new Bispo(Cor.BRANCO);
-        pecas[0][6] = new Cavalo(Cor.BRANCO);
-        pecas[0][7] = new Torre(Cor.BRANCO);
-
+        // Peças Pretas (no topo do tabuleiro, linhas 0 e 1)
+        colocarPeca(new Torre(Cor.PRETO), new Posicao(0, 0));
+        colocarPeca(new Cavalo(Cor.PRETO), new Posicao(0, 1));
+        colocarPeca(new Bispo(Cor.PRETO), new Posicao(0, 2));
+        colocarPeca(new Rainha(Cor.PRETO), new Posicao(0, 3));
+        colocarPeca(new Rei(Cor.PRETO), new Posicao(0, 4));
+        colocarPeca(new Bispo(Cor.PRETO), new Posicao(0, 5));
+        colocarPeca(new Cavalo(Cor.PRETO), new Posicao(0, 6));
+        colocarPeca(new Torre(Cor.PRETO), new Posicao(0, 7));
         for (int i = 0; i < 8; i++) {
-            pecas[1][i] = new Peao(Cor.BRANCO);
+            colocarPeca(new Peao(Cor.PRETO), new Posicao(1, i));
         }
 
-        pecas[7][0] = new Torre(Cor.PRETO);
-        pecas[7][1] = new Cavalo(Cor.PRETO);
-        pecas[7][2] = new Bispo(Cor.PRETO);
-        pecas[7][3] = new Rainha(Cor.PRETO);
-        pecas[7][4] = new Rei(Cor.PRETO);
-        pecas[7][5] = new Bispo(Cor.PRETO);
-        pecas[7][6] = new Cavalo(Cor.PRETO);
-        pecas[7][7] = new Torre(Cor.PRETO);
-
+        // Peças Brancas (na base do tabuleiro, linhas 6 e 7)
         for (int i = 0; i < 8; i++) {
-            pecas[7][i] = new Peao(Cor.PRETO);
+            colocarPeca(new Peao(Cor.BRANCO), new Posicao(6, i));
         }
+        colocarPeca(new Torre(Cor.BRANCO), new Posicao(7, 0));
+        colocarPeca(new Cavalo(Cor.BRANCO), new Posicao(7, 1));
+        colocarPeca(new Bispo(Cor.BRANCO), new Posicao(7, 2));
+        colocarPeca(new Rainha(Cor.BRANCO), new Posicao(7, 3));
+        colocarPeca(new Rei(Cor.BRANCO), new Posicao(7, 4));
+        colocarPeca(new Bispo(Cor.BRANCO), new Posicao(7, 5));
+        colocarPeca(new Cavalo(Cor.BRANCO), new Posicao(7, 6));
+        colocarPeca(new Torre(Cor.BRANCO), new Posicao(7, 7));
+    }
 
-        System.out.println("Tabuleiro inicializado (lógica de peças pendente).");
+    // --- MÉTODOS AUXILIARES ---
+
+    private boolean isPosicaoValida(Posicao pos) {
+        int linha = pos.getLinha();
+        int coluna = pos.getColuna();
+        return linha >= 0 && linha < 8 && coluna >= 0 && coluna < 8;
+    }
+
+    public List<Peca> getTodasAsPecasDeCor(Cor cor) {
+        List<Peca> pecasDaCor = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Peca peca = getPeca(new Posicao(i, j));
+                if (peca != null && peca.getCor() == cor) {
+                    pecasDaCor.add(peca);
+                }
+            }
+        }
+        return pecasDaCor;
+    }
+
+    public Posicao getPosicaoDaPeca(Peca pecaAlvo) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Posicao pos = new Posicao(i, j);
+                Peca peca = getPeca(pos);
+                if (peca != null && peca.equals(pecaAlvo)) {
+                    return pos;
+                }
+            }
+        }
+        return null;
     }
 }

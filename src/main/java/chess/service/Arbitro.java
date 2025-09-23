@@ -10,34 +10,23 @@ import java.util.List;
 
 public class Arbitro {
 
-    /**
-     * Valida um movimento, checando principalmente se o próprio rei não fica em xeque.
-     * Usa o padrão "Simular-Testar-Desfazer".
-     */
     public boolean validarMovimento(Peca peca, Posicao origem, Posicao destino, Tabuleiro tabuleiro) {
         Cor corDoJogador = peca.getCor();
 
-        // 1. Simula o movimento
         Peca pecaCapturada = tabuleiro.removerPeca(destino);
         tabuleiro.removerPeca(origem);
         tabuleiro.colocarPeca(peca, destino);
 
-        // 2. Testa a consequência
         boolean ficouEmXeque = this.verificarXeque(corDoJogador, tabuleiro);
 
-        // 3. Desfaz o movimento, restaurando o tabuleiro ao estado original
         tabuleiro.colocarPeca(peca, origem);
         if (pecaCapturada != null) {
             tabuleiro.colocarPeca(pecaCapturada, destino);
         }
 
-        // O movimento só é válido se NÃO deixou o próprio rei em xeque.
         return !ficouEmXeque;
     }
 
-    /**
-     * Verifica se o rei de uma determinada cor está sob ataque por alguma peça inimiga.
-     */
     public boolean verificarXeque(Cor corDoRei, Tabuleiro tabuleiro) {
         Posicao posicaoDoRei = encontrarPosicaoDoRei(corDoRei, tabuleiro);
         if (posicaoDoRei == null) {
@@ -46,16 +35,15 @@ public class Arbitro {
 
         Cor corInimiga = (corDoRei == Cor.BRANCO) ? Cor.PRETO : Cor.BRANCO;
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Posicao posAtual = new Posicao(i, j);
-                Peca peca = tabuleiro.getPeca(posAtual);
+        // MUDANÇA AQUI: Usa o método especialista do Tabuleiro
+        List<Peca> pecasInimigas = tabuleiro.getTodasAsPecasDeCor(corInimiga);
 
-                if (peca != null && peca.getCor() == corInimiga) {
-                    List<Posicao> movimentosPossiveis = peca.getMovimentosPossiveis(posAtual, tabuleiro);
-                    if (movimentosPossiveis.contains(posicaoDoRei)) {
-                        return true;
-                    }
+        for (Peca pecaInimiga : pecasInimigas) {
+            Posicao posicaoInimiga = tabuleiro.getPosicaoDaPeca(pecaInimiga);
+            if (posicaoInimiga != null) {
+                List<Posicao> movimentosPossiveis = pecaInimiga.getMovimentosPossiveis(posicaoInimiga, tabuleiro);
+                if (movimentosPossiveis.contains(posicaoDoRei)) {
+                    return true;
                 }
             }
         }
@@ -63,45 +51,32 @@ public class Arbitro {
         return false;
     }
 
-    /**
-     * Verifica se um jogador está em xeque-mate.
-     */
     public boolean verificarXequeMate(Cor cor, Tabuleiro tabuleiro) {
-        // 1. Para ser xeque-mate, o jogador DEVE estar em xeque primeiro.
         if (!verificarXeque(cor, tabuleiro)) {
             return false;
         }
 
-        // 2. Agora, verifica se existe ALGUMA jogada legal que o tire do xeque.
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Posicao posAtual = new Posicao(i, j);
-                Peca peca = tabuleiro.getPeca(posAtual);
+        // MUDANÇA AQUI: Usa o método especialista do Tabuleiro
+        List<Peca> todasAsPecasAmigas = tabuleiro.getTodasAsPecasDeCor(cor);
 
-                // Se a peça é da cor do jogador em xeque
-                if (peca != null && peca.getCor() == cor) {
-                    List<Posicao> movimentosPossiveis = peca.getMovimentosPossiveis(posAtual, tabuleiro);
+        for (Peca peca : todasAsPecasAmigas) {
+            Posicao posAtual = tabuleiro.getPosicaoDaPeca(peca);
+            if (posAtual == null) continue;
 
-                    // Testa cada movimento possível
-                    for (Posicao destino : movimentosPossiveis) {
-                        // Se encontrar UM movimento que seja válido (que tire do xeque)...
-                        if (validarMovimento(peca, posAtual, destino, tabuleiro)) {
-                            // ...então não é xeque-mate, pois existe uma escapatória.
-                            return false;
-                        }
-                    }
+            List<Posicao> movimentosPossiveis = peca.getMovimentosPossiveis(posAtual, tabuleiro);
+
+            for (Posicao destino : movimentosPossiveis) {
+                if (validarMovimento(peca, posAtual, destino, tabuleiro)) {
+                    return false; // Encontrou uma escapatória
                 }
             }
         }
 
-        // Se o loop terminar e nenhuma jogada válida for encontrada, é xeque-mate.
-        return true;
+        return true; // Nenhuma escapatória encontrada
     }
 
-    /**
-     * Método auxiliar privado para varrer o tabuleiro e encontrar a posição do Rei.
-     */
     private Posicao encontrarPosicaoDoRei(Cor corDoRei, Tabuleiro tabuleiro) {
+        // Este método tem sua única função de encontrar o rei.
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 Posicao pos = new Posicao(i, j);
