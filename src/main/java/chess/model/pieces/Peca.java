@@ -38,4 +38,5 @@ public abstract class Peca {
 
     public abstract List<Posicao> getMovimentosPossiveis(Posicao posicaoAtual, Tabuleiro tabuleiro);
 
+    public abstract String getRepresentacao();
 }

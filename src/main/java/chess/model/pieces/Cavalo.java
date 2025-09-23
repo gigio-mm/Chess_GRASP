@@ -14,4 +14,9 @@ public class Cavalo extends Peca {
     public List<Posicao> getMovimentosPossiveis(Posicao posicaoAtual, Tabuleiro tabuleiro) {
         return List.of();
     }
+
+    @Override
+    public String getRepresentacao() {
+        return getCor() == Cor.BRANCO ? "C" : "c";
+    }
 }

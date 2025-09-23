@@ -15,4 +15,9 @@ public class Peao extends Peca {
         // Lógica do movimento virá aqui
         return List.of();
     }
+
+    @Override
+    public String getRepresentacao() {
+        return getCor() == Cor.BRANCO ? "P" : "p";
+    }
 }
