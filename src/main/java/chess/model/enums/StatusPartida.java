@@ -5,6 +5,4 @@ public enum StatusPartida {
     XEQUE,
     XEQUE_MATE,
     EMPATE,
-    VITORIA_PRETAS,
-    VITORIA_BRANCAS;
 }
