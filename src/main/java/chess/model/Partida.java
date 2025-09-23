@@ -62,6 +62,14 @@ public class Partida {
         return true;
     }
 
+    public List<Posicao> getMovimentosPossiveisDe(Posicao origem) {
+        Peca peca = tabuleiro.getPeca(origem);
+        if (peca != null) {
+            return peca.getMovimentosPossiveis(origem, tabuleiro);
+        }
+        return List.of(); // Retorna lista vazia se não houver peça
+    }
+
     public Map<Cor, Integer> calcularPontuacao() {
         Map<Cor, Integer> pontuacao = new HashMap<>();
         pontuacao.put(Cor.BRANCO, 0);
@@ -101,9 +109,14 @@ public class Partida {
     }
 
     private void verificarStatusDoJogo() {
-        if (arbitro.verificarXequeMate(jogadorAtual.getCor(), tabuleiro)) {
-            this.status = (jogadorAtual.getCor() == Cor.BRANCO) ? StatusPartida.VITORIA_PRETAS : StatusPartida.VITORIA_BRANCAS;
-        } else if (arbitro.verificarXeque(jogadorAtual.getCor(), tabuleiro)) {
+        Cor corDoJogadorDaVez = jogadorAtual.getCor();
+
+        if (arbitro.verificarXequeMate(corDoJogadorDaVez, tabuleiro)) {
+            this.status = StatusPartida.XEQUE_MATE;
+            // O jogador anterior é o vencedor
+        } else if (arbitro.verificarEmpate(corDoJogadorDaVez, tabuleiro)) {
+            this.status = StatusPartida.EMPATE;
+        } else if (arbitro.verificarXeque(corDoJogadorDaVez, tabuleiro)) {
             this.status = StatusPartida.XEQUE;
         } else {
             this.status = StatusPartida.EM_ANDAMENTO;

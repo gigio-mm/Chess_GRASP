@@ -75,6 +75,33 @@ public class Arbitro {
         return true; // Nenhuma escapatória encontrada
     }
 
+    public boolean verificarEmpate(Cor cor, Tabuleiro tabuleiro) {
+        // Para ser empate por afogamento, o jogador NÃO PODE estar em xeque.
+        if (verificarXeque(cor, tabuleiro)) {
+            return false;
+        }
+
+        // Agora, verificamos se ele tem algum movimento legal (similar ao xeque-mate)
+        List<Peca> todasAsPecasAmigas = tabuleiro.getTodasAsPecasDeCor(cor);
+
+        for (Peca peca : todasAsPecasAmigas) {
+            Posicao posAtual = tabuleiro.getPosicaoDaPeca(peca);
+            if (posAtual == null) continue;
+
+            List<Posicao> movimentosPossiveis = peca.getMovimentosPossiveis(posAtual, tabuleiro);
+
+            for (Posicao destino : movimentosPossiveis) {
+                // Se encontrarmos UM ÚNICO movimento legal, não é empate.
+                if (validarMovimento(peca, posAtual, destino, tabuleiro)) {
+                    return false;
+                }
+            }
+        }
+
+        // Se o loop terminar e nenhuma jogada legal for encontrada, é empate.
+        return true;
+    }
+
     private Posicao encontrarPosicaoDoRei(Cor corDoRei, Tabuleiro tabuleiro) {
         // Este método tem sua única função de encontrar o rei.
         for (int i = 0; i < 8; i++) {
