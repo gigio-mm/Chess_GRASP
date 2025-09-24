@@ -33,9 +33,15 @@ A arquitetura foi projetada seguindo os princípios GRASP para garantir uma clar
 
 * *Pure Fabrication (Fabricação Pura):* As classes PartidaController e Arbitro são fabricações puras. Elas não existem no domínio do xadrez, mas foram criadas para reduzir o acoplamento e aumentar a coesão do sistema, separando as responsabilidades de interface e de validação complexa.
 
+* *Creator (Criador):* A responsabilidade de criar objetos foi delegada à classe mais apropriada. A classe Tabuleiro é a criadora de todas as instâncias de Peca no início do jogo (dentro do método iniciarPecasPadrao). A justificativa é que o Tabuleiro "contém" e gerencia as peças, tornando-se o candidato ideal para criá-las.
+
 * *High Cohesion (Alta Coesão):* Cada classe tem um propósito único e focado. A Partida gerencia o fluxo, o Arbitro valida as regras, o Tabuleiro gerencia o grid e a Peca define seu movimento.
 
 * *Low Coupling (Baixo Acoplamento):* As dependências são de mão única. O Controller conhece a Partida, mas a Partida não conhece o Controller. Isso torna as classes do núcleo (model, service) reutilizáveis e independentes.
+
+* *Protected Variations (Variações Protegidas):* Este padrão está diretamente ligado ao Polimorfismo. A interface da classe abstrata Peca serve como um ponto de estabilidade que protege o resto do sistema (como a classe Partida) de variações. Se as regras de movimento de uma peça mudarem, ou se uma nova peça for adicionada, a classe Partida não precisa ser alterada, pois ela depende da abstração estável, e não das implementações concretas que podem variar.
+
+* *Indirection (Indireção):* A classe Arbitro atua como um objeto intermediário que desacopla a Partida da lógica específica de validação de regras (xeque, xeque-mate, etc.). A Partida não precisa saber como um xeque-mate é validado; ela simplesmente pede ao Arbitro para fazer a verificação. Isso reduz o acoplamento e torna ambas as classes mais fáceis de manter.
 
 ---
 
