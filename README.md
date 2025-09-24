@@ -1,7 +1,7 @@
-# Chess_GRASP
 # Projeto de Xadrez com Padrões GRASP (Chess_GRASP)
+---
 
-Este projeto é uma implementação de um back-end para um jogo de xadrez de dois jogadores, desenvolvido como parte da disciplina de Arquitetura de Software. O foco principal não é a interface, mas sim a aplicação e demonstração dos *padrões de design GRASP* para criar um sistema robusto, coeso e com baixo acoplamento.
+Este projeto é uma implementação de um back-end para um jogo de xadrez de dois jogadores, desenvolvido como parte da disciplina de Projeto e Arquitetura de Sistemas. O foco principal é a aplicação e demonstração dos *padrões de design GRASP* para criar um sistema robusto, coeso e com baixo acoplamento.
 
 ---
 
@@ -43,28 +43,6 @@ A arquitetura foi projetada seguindo os princípios GRASP para garantir uma clar
 
 * *Linguagem:* Java 23
 * *Build Tool:* Apache Maven
-* *Testes:* JUnit 5
-
----
-
-## ▶️ Como Executar o Projeto
-
-*Pré-requisitos:*
-* JDK 23 ou superior.
-* Apache Maven.
-* Git.
-
-*Passos:*
-1.  Clone o repositório:
-    bash
-    git clone [https://github.com/gigio-mm/Chess_GRASP.git](https://github.com/gigio-mm/Chess_GRASP.git)
-    
-2.  Abra o projeto na IDE IntelliJ IDEA.
-3.  Aguarde o IntelliJ carregar e baixar as dependências do Maven.
-4.  Navegue até o arquivo src/main/java/chess/Main.java.
-5.  Clique com o botão direito no arquivo e selecione *Run 'Main.main()'*.
-
-O jogo interativo será iniciado no console do IntelliJ.
 
 ---
 
