@@ -18,4 +18,11 @@ public class Posicao {
         return coluna;
     }
 
+    @Override
+    public String toString() {
+        char colunaChar = (char) ('a' + coluna);
+        int linhaNum = 8 - linha;
+        return String.valueOf(colunaChar) + linhaNum;
+    }
 }
+

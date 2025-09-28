@@ -57,6 +57,8 @@ public class Main {
                     Posicao destino = converterCoordenada(partes[2]);
                     if (!controller.moverPeca(origem, destino)) {
                         System.out.println("\n>>> MOVIMENTO INVÁLIDO! Tente novamente. <<<\n");
+                    } else {
+                        imprimirEstadoDaPartida(controller);
                     }
                     break;
                 case "possiveis":
@@ -92,9 +94,14 @@ public class Main {
      */
     private static void imprimirEstadoDaPartida(PartidaController controller) {
         System.out.println(controller.getPartida().getTabuleiro().toString());
+
+        System.out.println("VEZ DE JOGAR: " + controller.getNomeDoJogadorAtual()
+                + " (" + controller.getCorDoTurnoAtual() + ")");
+
         System.out.println("Status: " + controller.getStatusDaPartida());
         System.out.println(controller.exibirVantagem());
     }
+
 
     /**
      * Verifica se a partida deve continuar no loop.
