@@ -76,8 +76,22 @@ public class PartidaController {
         return partida.getStatus();
     }
 
-
     public Partida getPartida() {
-        return this.partida;
+        return partida;
+    }
+
+    public String getNomeDoJogadorAtual() {
+        if (partida == null) {
+            return "N/A";
+        }
+        return partida.getJogadorAtual().getNome();
+    }
+
+    // NOVO MÉTODO 2: Para exibir a cor do jogador
+    public Cor getCorDoTurnoAtual() {
+        if (partida == null) {
+            return null;
+        }
+        return partida.getJogadorAtual().getCor();
     }
 }
