@@ -1,5 +1,7 @@
 package chess.model;
 
+import java.util.Objects;
+
 public class Posicao {
 
     private final int linha;
@@ -24,5 +26,17 @@ public class Posicao {
         int linhaNum = 8 - linha;
         return String.valueOf(colunaChar) + linhaNum;
     }
-}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Posicao posicao = (Posicao) o;
+        return linha == posicao.linha && coluna == posicao.coluna;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(linha, coluna);
+    }
+}
