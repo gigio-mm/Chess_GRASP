@@ -35,7 +35,7 @@ public class Arbitro {
 
         Cor corInimiga = (corDoRei == Cor.BRANCO) ? Cor.PRETO : Cor.BRANCO;
 
-        // MUDANÇA AQUI: Usa o método especialista do Tabuleiro
+        // Usa o método especialista do Tabuleiro
         List<Peca> pecasInimigas = tabuleiro.getTodasAsPecasDeCor(corInimiga);
 
         for (Peca pecaInimiga : pecasInimigas) {
@@ -56,7 +56,7 @@ public class Arbitro {
             return false;
         }
 
-        // MUDANÇA AQUI: Usa o método especialista do Tabuleiro
+        // Usa o método especialista do Tabuleiro
         List<Peca> todasAsPecasAmigas = tabuleiro.getTodasAsPecasDeCor(cor);
 
         for (Peca peca : todasAsPecasAmigas) {
@@ -76,12 +76,12 @@ public class Arbitro {
     }
 
     public boolean verificarEmpate(Cor cor, Tabuleiro tabuleiro) {
-        // Para ser empate por afogamento, o jogador NÃO PODE estar em xeque.
+        // Para ser empate por afogamento, o jogador não pode estar em xeque
         if (verificarXeque(cor, tabuleiro)) {
             return false;
         }
 
-        // Agora, verificamos se ele tem algum movimento legal (similar ao xeque-mate)
+        // Verifica se ele tem algum movimento legal (similar ao xeque-mate)
         List<Peca> todasAsPecasAmigas = tabuleiro.getTodasAsPecasDeCor(cor);
 
         for (Peca peca : todasAsPecasAmigas) {
@@ -91,14 +91,14 @@ public class Arbitro {
             List<Posicao> movimentosPossiveis = peca.getMovimentosPossiveis(posAtual, tabuleiro);
 
             for (Posicao destino : movimentosPossiveis) {
-                // Se encontrarmos UM ÚNICO movimento legal, não é empate.
+                // Se encontrar um único movimento legal, não é empate.
                 if (validarMovimento(peca, posAtual, destino, tabuleiro)) {
                     return false;
                 }
             }
         }
 
-        // Se o loop terminar e nenhuma jogada legal for encontrada, é empate.
+        // Se o loop terminar e nenhuma jogada legal for encontrada, é empate
         return true;
     }
 

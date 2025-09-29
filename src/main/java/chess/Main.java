@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 /**
  * Ponto de entrada executável da aplicação.
- * Cria uma interface de linha de comando (CLI) interativa para jogar xadrez
+ * Cria uma interface de linha de comando interativa para jogar xadrez
  * e testar todas as funcionalidades do back-end.
  */
 public class Main {
